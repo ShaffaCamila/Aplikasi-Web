@@ -18,7 +18,7 @@ st.set_page_config(
 
 def main():
 
-    df = pd.read_csv('./data/dataPrabowo_cleaned.csv')
+    df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
 
     st.markdown("""
                 <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
