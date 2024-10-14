@@ -94,7 +94,7 @@ def main():
                 </div>
             """, unsafe_allow_html=True)
     
-    image = Image.open("nlp\src\ss1.png")
+    image = Image.open("nlp/src/ss1.png")
     st.image(image)
 
 if __name__ == "__main__":
