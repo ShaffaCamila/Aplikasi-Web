@@ -21,8 +21,8 @@ def main():
     df = pd.read_csv('./data/dataPrabowo_cleaned.csv')
 
     st.markdown("""
-                <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center">
-                    <h1 style="font-size:3rem">NLP Twitter Analysis of "Prabowo"</h1>
+                <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
+                    <h1 style="font-size:3rem;color:#ffb6c1">NLP Twitter Analysis of "Prabowo"</h1>
                 </div>
 
             """, unsafe_allow_html=True)
@@ -59,7 +59,7 @@ def main():
         colors = ['#ffb6c1', '#f3c9d7', '#ffdae5']
         return random.choice(colors)
 
-    words = " ".join(df["cleaning"])
+    words = " ".join(df["cleaning_stemmed"])
     wordcloud = WordCloud(width=800, height=400, background_color="#faf7f0", color_func=custom_color_func).generate(words)
 
     fig, ax = plt.subplots(figsize=(10, 5))
