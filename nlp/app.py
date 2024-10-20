@@ -18,8 +18,7 @@ def main():
     choice = st.sidebar.selectbox("Menu", menu)
 
      # Use os.path.join to handle paths cross-platform
-    video_path = os.path.join('src', 'video1.mp4')
-
+    video_path = os.path.join('nlp', 'src', 'video1.mp4')
     # Display video banner at the top of the page
     if os.path.exists(video_path):
         with open(video_path, "rb") as video_file:
