@@ -1,4 +1,5 @@
 import random
+import pickle
 import streamlit as st
 import pandas as pd
 from PIL import Image
@@ -10,29 +11,46 @@ import requests
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-API_URL = "https://api-inference.huggingface.co/models/ayameRushia/bert-base-indonesian-1.5G-sentiment-analysis-smsa"
-headers = {"Authorization": "Bearer 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"}
-
-# Set page configuration
 st.set_page_config(
     page_title="NLP Dashboard - Streamlit App",
     page_icon="❤️",
 )
 
+df = pd.read_csv('./data/dataPrabowo_sentiment')
+model_nb = pickle.load(open('./model/model_nb.p', 'rb'))
+
+def predict_sentiment(text, model):
+    if text:
+        prediction = model.predict([text])
+        sentiment = prediction[0]
+
+        # Menentukan emoji berdasarkan sentimen
+        if sentiment == 'positive':
+            emoji = '😁' 
+        elif sentiment == 'negative':
+            emoji = '😡'  
+        elif sentiment == 'neutral':
+            emoji = '😐'
+
+        return sentiment, emoji
+        return None, None
 
 def main():
     menu = ["Sentiment Analysis", "Analysis Visualization", "About"]
     choice = st.sidebar.selectbox("Select Option", menu)
 
     if choice == "Sentiment Analysis":
-        with st.form("nlpForm"):
-            raw_text = st.text_area("Enter Text Here")
-            submit_button = st.form_submit_button(label='Analyze')
+         # User Input Text
+        st.subheader('User Input Text')
+        user_input = st.text_area("Enter a comment for analysis:")
 
-        if submit_button:
-            # Display sentiment analysis results
-            sentiment = analyze_sentiment(raw_text)
-            display_sentiment_results(sentiment)
+        if st.button('Submit'):
+            if user_input:
+                predicted_sentiment, emoji = predict_sentiment(user_input, model_nb)
+
+                # Display the prediction
+                st.subheader('Sentiment Analysis Result')
+                st.write(f"Predicted Sentiment for the entered comment: **{predicted_sentiment} {emoji}**")
 
     elif choice == "Analysis Visualization":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
@@ -166,10 +184,6 @@ def display_sentiment_results(sentiment):
         # For now, we can just indicate this will be implemented.
         st.write("Token analysis is not yet implemented.")
 
-
-def is_english(text):
-    # A simple heuristic to check if the text is English
-    return any(char.isascii() for char in text)
 
 
 if __name__ == "__main__":
