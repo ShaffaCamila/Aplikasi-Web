@@ -93,6 +93,8 @@ def main():
         st.image(image)
 
     elif choice == "About":
+        st.image(banner_url, use_column_width=True)
+        
         st.subheader("About")
         st.markdown("""
             This is an NLP Dashboard built with Streamlit for analyzing tweets related to Prabowo.
