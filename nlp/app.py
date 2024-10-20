@@ -16,8 +16,7 @@ def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    banner_url = "https://cdn.pixabay.com/photo/2016/07/30/19/45/banner-1557818_960_720.jpg"
-    st.image(banner_url, use_column_width=True)
+    banner_url = "src/Social media user.mp4"
 
     if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
@@ -26,7 +25,7 @@ def main():
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
                 <h1 style="font-size:3rem;color:#ffb6c1">NLP X Analysis of "Prabowo"</h1>
             </div>
-        """, unsafe_allow_html=True)
+        """.format(st.video(banner_url, use_column_width=False, output_format="mp4").split(',')[1]), unsafe_allow_html=True)
 
         col1, col2 = st.columns(2)
 
