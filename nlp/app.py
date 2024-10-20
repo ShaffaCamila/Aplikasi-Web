@@ -13,20 +13,25 @@ st.set_page_config(
     page_icon="❤️",
 )
 
-st.markdown("""
-    <style>
-    video {
-        width: 1080px !important;
-        height: 1080px !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+def local_css(css_code):
+    st.markdown(f'<style>{css_code}</style>', unsafe_allow_html=True)
 
 def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-     # Use os.path.join to handle paths cross-platform
+    local_css("""
+            .centered-video {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            video {
+                width: 70%; /* Adjust this percentage to make the video smaller/larger */
+            }
+        """)
+    
+    # Use os.path.join to handle paths cross-platform
     video_path = os.path.join('nlp', 'src', 'video1.mp4')
     # Display video banner at the top of the page
     if os.path.exists(video_path):
