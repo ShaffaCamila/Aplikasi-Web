@@ -21,7 +21,7 @@ def main():
 
         st.markdown("""
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
-                <h1 style="font-size:3rem;color:#ffb6c1">NLP Twitter Analysis of "Prabowo"</h1>
+                <h1 style="font-size:3rem;color:#ffb6c1">NLP X Analysis of "Prabowo"</h1>
             </div>
         """, unsafe_allow_html=True)
 
