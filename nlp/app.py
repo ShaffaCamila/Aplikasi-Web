@@ -27,7 +27,7 @@ def main():
                 margin-bottom: 20px;
             }
             video {
-                width: 30%; /* Adjust this percentage to make the video smaller/larger */
+                width: 20%; /* Adjust this percentage to make the video smaller/larger */
             }
         """)
     
