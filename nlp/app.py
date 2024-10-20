@@ -20,19 +20,13 @@ def main():
     if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
 
-        st.markdown(
-            """
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <img src="nlp/src/ss1.png" alt="Image" width="600">
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
         st.markdown("""
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
                 <h1 style="font-size:3rem;color:#ffb6c1">NLP X Analysis of "Prabowo"</h1>
             </div>
         """, unsafe_allow_html=True)
+
+        st.image("nlp/src/image1.jpg")
 
         col1, col2 = st.columns(2)
 
