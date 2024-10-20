@@ -26,7 +26,9 @@ def main():
             </div>
         """, unsafe_allow_html=True)
 
-        st.image("nlp/src/image1.jpg")
+        left_co, cent_co,last_co = st.columns(3)
+        with cent_co:
+            st.image("nlp/src/image1.jpg")
 
         col1, col2 = st.columns(2)
 
