@@ -16,11 +16,6 @@ def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    video_file = open("src/Social media user.mp4", "rb")
-    video_bytes = video_file.read()
-
-    st.video(video_bytes)
-
     if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
 
