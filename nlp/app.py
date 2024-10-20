@@ -6,6 +6,12 @@ import plotly.express as px
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import os
+import requests
+from textblob import TextBlob
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+API_URL = "https://api-inference.huggingface.co/models/ayameRushia/bert-base-indonesian-1.5G-sentiment-analysis-smsa"
+headers = {"Authorization": "Bearer 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"}
 
 # Set page configuration
 st.set_page_config(
@@ -13,11 +19,22 @@ st.set_page_config(
     page_icon="❤️",
 )
 
-def main():
-    menu = ["Home", "About"]
-    choice = st.sidebar.selectbox("Menu", menu)
 
-    if choice == "Home":
+def main():
+    menu = ["Sentiment Analysis", "Analysis Visualization", "About"]
+    choice = st.sidebar.selectbox("Select Option", menu)
+
+    if choice == "Sentiment Analysis":
+        with st.form("nlpForm"):
+            raw_text = st.text_area("Enter Text Here")
+            submit_button = st.form_submit_button(label='Analyze')
+
+        if submit_button:
+            # Display sentiment analysis results
+            sentiment = analyze_sentiment(raw_text)
+            display_sentiment_results(sentiment)
+
+    elif choice == "Analysis Visualization":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
 
         st.markdown("""
@@ -26,7 +43,7 @@ def main():
             </div>
         """, unsafe_allow_html=True)
 
-        left_co, cent_co,last_co = st.columns(3)
+        left_co, cent_co, last_co = st.columns(3)
         with cent_co:
             st.image("nlp/src/image1.jpg")
 
@@ -96,12 +113,64 @@ def main():
         st.image(image)
 
     elif choice == "About":
-
         st.subheader("About")
         st.markdown("""
             This is an NLP Dashboard built with Streamlit for analyzing tweets related to Prabowo.
             The dashboard visualizes the most frequent words and performs basic sentiment analysis using word clouds and clustering.
         """)
+
+
+def analyze_sentiment(raw_text):
+    # Using TextBlob for English sentiment analysis
+    if is_english(raw_text):
+        sentiment = TextBlob(raw_text).sentiment
+        return {
+            "polarity": sentiment.polarity,
+            "subjectivity": sentiment.subjectivity,
+            "label": "Positive" if sentiment.polarity > 0 else "Negative" if sentiment.polarity < 0 else "Neutral"
+        }
+    # Using API for Indonesian sentiment analysis
+    else:
+        response = requests.post(API_URL, headers=headers, json={"inputs": raw_text})
+        scores = response.json()[0]
+        sentiment = max(scores, key=lambda x: x["score"])
+        return {
+            "label": sentiment["label"],
+            "score": sentiment["score"]
+        }
+
+
+def display_sentiment_results(sentiment):
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.info("Sentiment Analysis Results")
+        if "label" in sentiment:
+            st.write(f"Sentiment: {sentiment['label']}")
+
+            # Emoji
+            if sentiment['label'] == 'Positive':
+                st.markdown(":smiley:")
+            elif sentiment['label'] == 'Negative':
+                st.markdown(":angry:")
+            else:
+                st.markdown(":neutral_face:")
+            
+            if "polarity" in sentiment:
+                st.write(f"Polarity: {sentiment['polarity']}")
+                st.write(f"Subjectivity: {sentiment['subjectivity']}")
+
+    with col2:
+        # Token sentiment analysis can be added here if desired
+        st.info("Token Sentiment Analysis")
+        # For now, we can just indicate this will be implemented.
+        st.write("Token analysis is not yet implemented.")
+
+
+def is_english(text):
+    # A simple heuristic to check if the text is English
+    return any(char.isascii() for char in text)
+
 
 if __name__ == "__main__":
     main()
