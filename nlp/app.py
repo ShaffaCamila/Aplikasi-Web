@@ -13,6 +13,15 @@ st.set_page_config(
     page_icon="❤️",
 )
 
+st.markdown("""
+    <style>
+    video {
+        width: 1080px !important;
+        height: 1080px !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
