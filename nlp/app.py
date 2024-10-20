@@ -16,10 +16,9 @@ def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    if choice == "Home":
-        image_url = "https://cdn.pixabay.com/photo/2016/07/30/19/45/banner-1557818_960_720.jpg"  # Replace with your image URL
-        st.image(image_url, use_column_width=True)
+    banner_url = "https://cdn.pixabay.com/photo/2016/07/30/19/45/banner-1557818_960_720.jpg"
 
+    if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
 
         st.markdown("""
