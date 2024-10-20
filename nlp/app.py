@@ -26,7 +26,16 @@ def main():
             </div>
         """, unsafe_allow_html=True)
 
-        st.image("nlp/src/image1.jpg")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.image("nlp/src/image1.jpg")
+        with col2:
+            st.markdown(f"""
+                <div style="display:flex;flex-direction:column;align-items:center; gap: 10px">
+                    <text style="font-size:1.2rem;font-weight:bold;color:#ffb6c1;transform:translateY(30px);text-align:center">Keywords</text>
+                    <text style="font-size:2rem;font-weight:bolder;text-align:center">"prabowo lang:id"</text>
+                </div>
+            """, unsafe_allow_html=True)
 
         col1, col2 = st.columns(2)
 
