@@ -21,7 +21,7 @@ model_nb = pickle.load(open('./model/model-nb.p', 'rb'))
 
 def predict_sentiment(text, model):
     if text:
-        prediction = model.predict([[text]])
+        prediction = model.predict([str(text)])
         sentiment = prediction[0]
 
         # Menentukan emoji berdasarkan sentimen
@@ -43,7 +43,7 @@ def main():
         # User Input Text
         st.markdown("""
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center">
-                <h1 style="font-size:3rem;color:#ffb6c1">User Input</h1>
+                <h1 style="font-size:3rem;color:#ffb6c1">Sentiment Analysis</h1>
             </div>
         """, unsafe_allow_html=True)
 
