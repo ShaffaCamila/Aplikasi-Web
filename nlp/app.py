@@ -32,8 +32,7 @@ def main():
         with col2:
             st.markdown(f"""
                 <div style="display:flex;flex-direction:column;align-items:center; gap: 10px">
-                    <text style="font-size:1.2rem;font-weight:bold;color:#ffb6c1;transform:translateY(30px);text-align:center">Keywords</text>
-                    <text style="font-size:2rem;font-weight:bolder;text-align:center">"prabowo lang:id"</text>
+                    <text style="font-size:2rem;font-weight:bolder;color:#ffb6c1;text-align:center">"comments from netizens on platform x"</text>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -103,7 +102,6 @@ def main():
         st.image(image)
 
     elif choice == "About":
-        st.image(banner_url, use_column_width=True)
 
         st.subheader("About")
         st.markdown("""
