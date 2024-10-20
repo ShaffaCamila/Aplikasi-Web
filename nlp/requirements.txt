@@ -8,3 +8,4 @@ wordcloud==1.9.3
 textblob
 vaderSentiment
 requests
+pickle
