@@ -17,6 +17,7 @@ def main():
     choice = st.sidebar.selectbox("Menu", menu)
 
     banner_url = "https://cdn.pixabay.com/photo/2016/07/30/19/45/banner-1557818_960_720.jpg"
+    st.image(banner_url, use_column_width=True)
 
     if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
@@ -94,7 +95,7 @@ def main():
 
     elif choice == "About":
         st.image(banner_url, use_column_width=True)
-        
+
         st.subheader("About")
         st.markdown("""
             This is an NLP Dashboard built with Streamlit for analyzing tweets related to Prabowo.
