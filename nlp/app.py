@@ -5,6 +5,7 @@ from PIL import Image
 import plotly.express as px
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import os
 
 # Set page configuration
 st.set_page_config(
@@ -15,6 +16,18 @@ st.set_page_config(
 def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
+
+     # Use os.path.join to handle paths cross-platform
+    video_path = os.path.join('src', 'Social media user.mp4')
+
+    # Display video banner at the top of the page
+    if os.path.exists(video_path):
+        with open(video_path, "rb") as video_file:
+            video_bytes = video_file.read()
+            # Set the video as a header banner
+            st.video(video_bytes)
+    else:
+        st.error("Header video file not found!")
 
     if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
