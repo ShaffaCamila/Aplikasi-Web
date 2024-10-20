@@ -16,12 +16,12 @@ st.set_page_config(
     page_icon="❤️",
 )
 
-df = pd.read_csv('./data/dataPrabowo_sentiment')
-model_nb = pickle.load(open('./model/model_nb.p', 'rb'))
+df = pd.read_csv('./data/dataPrabowo_sentiment.csv')
+model_nb = pickle.load(open('./model/model-nb.p', 'rb'))
 
 def predict_sentiment(text, model):
     if text:
-        prediction = model.predict([text])
+        prediction = model.predict([[text]])
         sentiment = prediction[0]
 
         # Menentukan emoji berdasarkan sentimen
@@ -36,24 +36,35 @@ def predict_sentiment(text, model):
         return None, None
 
 def main():
-    menu = ["Sentiment Analysis", "Analysis Visualization", "About"]
+    menu = ["👀 Sentiment Analysis", "📊 Analysis Visualization", "📔 About"]
     choice = st.sidebar.selectbox("Select Option", menu)
 
-    if choice == "Sentiment Analysis":
-         # User Input Text
-        st.subheader('User Input Text')
+    if choice == "👀 Sentiment Analysis":
+        # User Input Text
+        st.markdown("""
+            <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center">
+                <h1 style="font-size:3rem;color:#ffb6c1">User Input</h1>
+            </div>
+        """, unsafe_allow_html=True)
+
         user_input = st.text_area("Enter a comment for analysis:")
 
         if st.button('Submit'):
             if user_input:
                 predicted_sentiment, emoji = predict_sentiment(user_input, model_nb)
 
-                # Display the prediction
-                st.subheader('Sentiment Analysis Result')
-                st.write(f"Predicted Sentiment for the entered comment: **{predicted_sentiment} {emoji}**")
+                # Display the prediction with enhanced styling
+                st.markdown("""<div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center">
+                                <h3 style="font-size:2rem;color:#ffb6c1">Sentiment Analysis Result</h3>
+                            </div>""", unsafe_allow_html=True)
 
-    elif choice == "Analysis Visualization":
-        df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
+                st.markdown(f"<div style='text-align:center; font-size:1.5rem; color:#ffb6c1;'>"
+                            f"Predicted Sentiment for the entered comment: <strong>{predicted_sentiment} {emoji}</strong>"
+                            f"</div>", unsafe_allow_html=True)
+
+
+    elif choice == "📊 Analysis Visualization":
+        df = pd.read_csv('./data/dataPrabowo_cleaned.csv')
 
         st.markdown("""
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
@@ -63,7 +74,7 @@ def main():
 
         left_co, cent_co, last_co = st.columns(3)
         with cent_co:
-            st.image("nlp/src/image1.jpg")
+            st.image("./src/image1.jpg")
 
         col1, col2 = st.columns(2)
 
@@ -127,63 +138,22 @@ def main():
             </div>
         """, unsafe_allow_html=True)
 
-        image = Image.open("nlp/src/ss1.png")
+        image = Image.open("./src/ss1.png")
         st.image(image)
 
-    elif choice == "About":
-        st.subheader("About")
+    elif choice == "📔 About":
         st.markdown("""
-            This is an NLP Dashboard built with Streamlit for analyzing tweets related to Prabowo.
-            The dashboard visualizes the most frequent words and performs basic sentiment analysis using word clouds and clustering.
-        """)
+            <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
+                <h1 style="font-size:3rem;color:#ffb6c1">About</h1>
+            </div>
+        """, unsafe_allow_html=True)
 
-
-def analyze_sentiment(raw_text):
-    # Using TextBlob for English sentiment analysis
-    if is_english(raw_text):
-        sentiment = TextBlob(raw_text).sentiment
-        return {
-            "polarity": sentiment.polarity,
-            "subjectivity": sentiment.subjectivity,
-            "label": "Positive" if sentiment.polarity > 0 else "Negative" if sentiment.polarity < 0 else "Neutral"
-        }
-    # Using API for Indonesian sentiment analysis
-    else:
-        response = requests.post(API_URL, headers=headers, json={"inputs": raw_text})
-        scores = response.json()[0]
-        sentiment = max(scores, key=lambda x: x["score"])
-        return {
-            "label": sentiment["label"],
-            "score": sentiment["score"]
-        }
-
-
-def display_sentiment_results(sentiment):
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.info("Sentiment Analysis Results")
-        if "label" in sentiment:
-            st.write(f"Sentiment: {sentiment['label']}")
-
-            # Emoji
-            if sentiment['label'] == 'Positive':
-                st.markdown(":smiley:")
-            elif sentiment['label'] == 'Negative':
-                st.markdown(":angry:")
-            else:
-                st.markdown(":neutral_face:")
-            
-            if "polarity" in sentiment:
-                st.write(f"Polarity: {sentiment['polarity']}")
-                st.write(f"Subjectivity: {sentiment['subjectivity']}")
-
-    with col2:
-        # Token sentiment analysis can be added here if desired
-        st.info("Token Sentiment Analysis")
-        # For now, we can just indicate this will be implemented.
-        st.write("Token analysis is not yet implemented.")
-
+        st.markdown("""
+            <div style="display:flex;flex-direction:column;border:1px;align-items:center">
+                <text style="font-size:1rem;font-weight:bolder;text-align:left">This is an NLP Dashboard built with Streamlit for analyzing tweets related to Prabowo.
+            The dashboard visualizes the most frequent words and performs basic sentiment analysis using word clouds and clustering.</text>
+            </div>
+        """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
