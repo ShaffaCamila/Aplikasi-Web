@@ -13,38 +13,14 @@ st.set_page_config(
     page_icon="❤️",
 )
 
-def local_css(css_code):
-    st.markdown(f'<style>{css_code}</style>', unsafe_allow_html=True)
-
 def main():
     menu = ["Home", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    local_css("""
-            .centered-video {
-                display: flex;
-                justify-content: center;
-                margin-bottom: 20px;
-            }
-            video {
-                width: 20%; /* Adjust this percentage to make the video smaller/larger */
-            }
-        """)
-    
-    # Use os.path.join to handle paths cross-platform
-    video_path = os.path.join('nlp', 'src', 'video1.mp4')
-    # Display video banner at the top of the page
-    if os.path.exists(video_path):
-        with open(video_path, "rb") as video_file:
-            video_bytes = video_file.read()
-            # Set the video as a header banner
-            st.video(video_bytes)
-    else:
-        st.error("Header video file not found!")
-
     if choice == "Home":
         df = pd.read_csv('nlp/data/dataPrabowo_cleaned.csv')
 
+        st.image("nlp/src/image1.jpg")
         st.markdown("""
             <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;justify-content:center;text-align:center;color:#ffb6c1">
                 <h1 style="font-size:3rem;color:#ffb6c1">NLP X Analysis of "Prabowo"</h1>
