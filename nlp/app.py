@@ -19,14 +19,12 @@ def main():
 
      # Use os.path.join to handle paths cross-platform
     video_path = os.path.join('nlp', 'src', 'video1.mp4')
-    # Display video banner with reduced size using HTML
+    # Display video banner at the top of the page
     if os.path.exists(video_path):
-        video_html = f"""
-            <video width="600" height="300" controls>
-                <source src="data:video/mp4;base64,{open(video_path, "rb").read().encode('base64').decode()}" type="video/mp4">
-            </video>
-        """
-        st.markdown(video_html, unsafe_allow_html=True)
+        with open(video_path, "rb") as video_file:
+            video_bytes = video_file.read()
+            # Set the video as a header banner
+            st.video(video_bytes)
     else:
         st.error("Header video file not found!")
 
